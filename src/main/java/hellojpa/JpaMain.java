@@ -14,11 +14,8 @@ public class JpaMain {
         tx.begin(); // 트랜잭션 시작
 
         try {
-            Member member = new Member();
-            member.setId(2L);
-            member.setName("HelloB");
-
-            em.persist(member);
+            Member findMember = em.find(Member.class, 1L);
+            findMember.setName("HelloJpa");
 
             tx.commit(); // 커밋
         } catch (Exception e) {
