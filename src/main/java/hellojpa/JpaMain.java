@@ -1,6 +1,5 @@
 package hellojpa;
 
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -12,22 +11,26 @@ public class JpaMain {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
-        tx.begin(); // 트랜잭션 시작
+        tx.begin();
 
         try {
-//            Member findMember = em.find(Member.class, 1L);
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(10)
-                    .getResultList();
+            // 비영속
+            Member member = new Member();
+            member.setId(101L);
+            member.setName("HelloJPA");
 
-            for (Member member : result) {
-                System.out.println("member.name = " + member.getName());
-            }
+            // 영속
+            System.out.println("=== BEFORE ===");
+            em.persist(member);
+            System.out.println("=== AFTER ===");
 
-            tx.commit(); // 커밋
+            Member findMember = em.find(Member.class, 101L);
+            System.out.println("findMember.getId = " + findMember.getId());
+            System.out.println("findMember.getName = " + findMember.getName());
+
+            tx.commit();
         } catch (Exception e) {
-            tx.rollback(); // 롤백
+            tx.rollback();
         } finally {
             em.close();
         }
