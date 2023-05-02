@@ -11,16 +11,22 @@ public class JpaMain {
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
 
-        tx.begin();
+        tx.begin(); // 트랜잭션 시작
 
-        Member member = new Member();
-        member.setId(2L);
-        member.setName("HelloB");
+        try {
+            Member member = new Member();
+            member.setId(2L);
+            member.setName("HelloB");
 
-        em.persist(member);
-        tx.commit();
+            em.persist(member);
 
-        em.close();
+            tx.commit(); // 커밋
+        } catch (Exception e) {
+            tx.rollback(); // 롤백
+        } finally {
+            em.close();
+        }
+
         emf.close();
     }
 }
