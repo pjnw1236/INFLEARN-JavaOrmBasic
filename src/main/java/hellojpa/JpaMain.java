@@ -17,7 +17,7 @@ public class JpaMain {
             Member member = em.find(Member.class, 150L); // 영속 상태
             member.setName("AAAAA");
 
-            em.detach(member); // 준영속 상태
+            em.clear();
 
             System.out.println("====================");
 
