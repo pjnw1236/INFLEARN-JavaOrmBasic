@@ -19,6 +19,8 @@ public class JpaMain {
 
             em.clear();
 
+            Member member2 = em.find(Member.class, 150L); // 영속 상태
+
             System.out.println("====================");
 
             tx.commit();
